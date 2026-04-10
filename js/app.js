@@ -1,4 +1,9 @@
-// js/app.js
+/** 
+ * @file app.js 
+ * @description Core Logic for NutriSense Health Tracker.
+ * Handles user authentication, food/health logging, and dynamic charting.
+ */
+
 import { auth, db } from './firebase-config.js';
 import { 
   signInWithEmailAndPassword, 
@@ -158,18 +163,24 @@ if (auth) {
 
 // ---- Core Logic ----
 
+/**
+ * Fetches and renders all dashboard statistics, food logs, and health metrics
+ * for the current day and the current logged-in user.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loadDashboardData() {
   if (!currentUser) return;
   const today = getTodayString();
   
-  // 1. Fetch Logs
-  const q = query(
-    collection(db, "logs"), 
-    where("userId", "==", currentUser.uid),
-    where("date", "==", today),
-  );
-  
   try {
+    // 1. Fetch Food Logs for Today
+    const q = query(
+      collection(db, "logs"), 
+      where("userId", "==", currentUser.uid),
+      where("date", "==", today),
+    );
+    
     const querySnapshot = await getDocs(q);
     todayLogs = [];
     let totalCals = 0;
@@ -180,34 +191,33 @@ async function loadDashboardData() {
       totalCals += data.calories;
     });
     
-    // Apply sorting so front page display is chronological newest-first
+    // Sort and Render
     todayLogs.sort((a,b) => b.timestamp - a.timestamp);
     renderTodayLogs(todayLogs);
     
-    // Daily total stats
+    // Update Daily Stats Display
     dailyCaloriesDisplay.innerText = totalCals;
     dailyCaloriesDisplay.style.color = totalCals > DAILY_LIMIT ? 'var(--tertiary)' : 'var(--primary)';
     
-    // 2. Fetch User Streak Data & Profile Data
-    let streak = 0;
+    // 2. Fetch User Profile Data
     const userDocRef = doc(db, "users", currentUser.uid);
     const userDocSnap = await getDoc(userDocRef);
+    
     if (userDocSnap.exists()) {
       userProfile = userDocSnap.data();
-      streak = userProfile.streak || 0;
+      const streak = userProfile.streak || 0;
       DAILY_LIMIT = userProfile.dailyGoal || 2000;
       
-      // Update displays
       userDisplayName.innerText = userProfile.displayName || currentUser.email;
       if(dailyGoalDisplay) dailyGoalDisplay.innerText = DAILY_LIMIT;
+      streakDisplay.innerText = `🔥 ${streak} Days`;
     }
-    streakDisplay.innerText = `🔥 ${streak} Days`;
 
-    // 4. Update Chart Data
+    // 3. Render Trend Charts
     await renderChartData();
 
-  } catch(e) {
-    console.error("Error loading data:", e);
+  } catch (error) {
+    console.error("[NutriSense Error] Failed to load dashboard data:", error);
   }
 }
 
