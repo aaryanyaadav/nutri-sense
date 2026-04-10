@@ -1,0 +1,248 @@
+/* 
+ * The Design System: Organic Intelligence & Tonal Depth
+ * Theme: The Digital Sanctuary
+ */
+
+:root {
+  /* Colors */
+  --surface: #f0fdf1;
+  --surface-container: #e4f1e5;
+  --surface-container-low: #eaf7eb;
+  --primary: #036c3c;
+  --primary-container: #2d8653;
+  --tertiary: #aa3500;
+  --on-surface: #131e17;
+  --outline-variant: #bec9be;
+
+  /* Shadows */
+  --shadow-light: #ffffff;
+  --shadow-dark: #c3d9c5;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: 'DM Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Nunito', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.app-container {
+  width: 100%;
+  max-width: 600px;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility visibility classes */
+.hidden {
+  display: none !important;
+}
+
+/* Typography elements */
+.text-tertiary { color: var(--tertiary); }
+.text-muted { color: #546757; }
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mt-2 { margin-top: 16px; }
+.flex-item { display: flex; align-items: center; justify-content: space-between; }
+
+/* Cards - Molded Surface */
+.card {
+  background-color: var(--surface);
+  border-radius: 24px;
+  box-shadow: -10px -10px 20px var(--shadow-light), 10px 10px 20px var(--shadow-dark);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* Sub-cards - Sunken/Grouped Areas */
+.sub-card {
+  background-color: var(--surface-container);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+}
+
+/* Sunken Well Inset Inputs */
+.input-field, select {
+  background-color: var(--surface);
+  border: 1px solid rgba(190, 201, 190, 0.15); /* Ghost Border */
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: inset -5px -5px 10px var(--shadow-light), inset 5px 5px 10px var(--shadow-dark);
+  color: var(--on-surface);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.input-field:focus, select:focus {
+  border-color: rgba(3, 108, 60, 0.4);
+}
+
+/* Buttons - Tactile Pills */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-container));
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 16px 24px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px var(--shadow-light), 5px 5px 10px var(--shadow-dark);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.btn-primary:active {
+  box-shadow: inset -3px -3px 6px #024a29, inset 3px 3px 6px #2d8653;
+  transform: translateY(2px);
+}
+
+/* Subtle Secondary Action Buttons */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid rgba(190, 201, 190, 0.15); /* Ghost Border */
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 12px;
+  transition: opacity 0.2s ease;
+}
+.btn-secondary:hover { opacity: 0.8; }
+
+.btn-tertiary {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(3, 108, 60, 0.4);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* Glassmorphism Header & Alerts */
+.glass-panel {
+  background-color: rgba(240, 253, 241, 0.8);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(190, 201, 190, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16px 0;
+  margin-bottom: 24px;
+}
+
+.alert-panel {
+  background-color: rgba(255, 219, 208, 0.4); /* Tertiary fixed tint */
+  border-left: 4px solid var(--tertiary);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+/* Vitality Ring (Daily Progress) */
+.vitality-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0;
+  position: relative;
+}
+
+.vitality-track {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: inset -5px -5px 10px var(--shadow-light), inset 5px 5px 10px var(--shadow-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.vitality-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--primary);
+  line-height: 1;
+}
+.vitality-sub {
+  font-size: 0.8rem;
+  color: var(--on-surface);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Top Navbar Info */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.streak-badge {
+  background: var(--surface-container);
+  box-shadow: -3px -3px 6px var(--shadow-light), 3px 3px 6px var(--shadow-dark);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  color: var(--tertiary);
+}
+
+/* Log Item styling */
+.log-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: var(--surface);
+  border-radius: 16px;
+  margin-bottom: 8px;
+  box-shadow: -3px -3px 8px var(--shadow-light), 3px 3px 8px var(--shadow-dark);
+}
+.log-meta h4 { margin: 0 0 4px 0; color: var(--on-surface); font-size: 1.1rem; }
+.log-meta span { font-size: 0.85rem; color: var(--muted); }
+.log-calories {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+}

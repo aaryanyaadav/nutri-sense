@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriSense - Smart Health Tracking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- App Wrapper -->
+  <div class="app-container">
+
+    <!-- Auth View (Login / Signup) -->
+    <div id="auth-view" class="card">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">NutriSense</h1>
+        <p class="text-muted">The Digital Sanctuary for your Health</p>
+      </div>
+
+      <div id="login-form">
+        <h2>Log In</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" class="input-field" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-pwd" class="input-field" placeholder="Your password">
+        </div>
+        <button id="btn-login" class="btn-primary mb-2">Log In</button>
+        <div style="text-align: center;">
+          <button id="btn-show-signup" class="btn-tertiary">Create an Account</button>
+        </div>
+      </div>
+
+      <div id="signup-form" class="hidden">
+        <h2>Sign Up</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="signup-email" class="input-field" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup-pwd" class="input-field" placeholder="Minimum 6 characters">
+        </div>
+        <button id="btn-signup" class="btn-primary mb-2">Sign Up</button>
+        <div style="text-align: center;">
+          <button id="btn-show-login" class="btn-tertiary">Already have an account?</button>
+        </div>
+      </div>
+      
+      <div id="auth-error" class="hidden alert-panel mt-2"></div>
+    </div>
+
+    <!-- Main Dashboard View -->
+    <div id="dashboard-view" class="hidden">
+      <!-- Header -->
+      <div class="top-nav glass-panel" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;">
+        <div class="streak-badge" id="streak-display" style="justify-self: start;">🔥 0 Days</div>
+        <h2 style="margin:0; text-align: center;">NutriSense</h2>
+        <div style="display: flex; align-items: center; justify-self: end; gap: 8px;">
+          <span class="text-muted" id="user-display-name" style="font-weight: 600;">User</span>
+          <button id="btn-edit-profile" style="background: none; border: none; cursor: pointer; padding: 0; color: var(--primary); display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- Vitality Ring / Daily Summary -->
+      <div class="card" style="text-align: center;">
+        <h3 style="margin-top:0;">Today's Vitality</h3>
+        <div class="vitality-container">
+          <div class="vitality-track">
+            <span class="vitality-text" id="daily-calories">0</span>
+            <span class="vitality-sub">kcal</span>
+          </div>
+        </div>
+        <p class="text-muted" style="margin-bottom:0;">Goal: <span id="daily-goal-display">2000</span> kcal</p>
+      </div>
+
+      <!-- Chart Card -->
+      <div class="card">
+        <div class="flex-item mb-2" style="align-items: center;">
+          <h3 style="margin:0;">Trends</h3>
+          <select id="chart-timeframe" class="input-field" style="width: auto; padding: 4px 12px; border-radius: 8px;">
+            <option value="daily">Past 7 Days</option>
+            <option value="weekly">Past 4 Weeks</option>
+            <option value="monthly">Past 6 Months</option>
+          </select>
+        </div>
+        <canvas id="caloriesChart" width="400" height="200"></canvas>
+      </div>
+
+      <!-- Add Food Form -->
+      <div class="card">
+        <h3 style="margin-top:0;">Log Food</h3>
+        <div class="form-group">
+          <label>Food Item</label>
+          <input type="text" id="food-name" class="input-field" placeholder="e.g., Avocado Toast">
+        </div>
+        <div class="flex-item" style="gap: 16px;">
+          <div class="form-group" style="flex: 1;">
+            <label>Calories</label>
+            <input type="number" id="food-cals" class="input-field" placeholder="0">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Category</label>
+            <select id="food-cat" class="input-field">
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snacks">Snacks</option>
+              <option value="Misc">Misc</option>
+            </select>
+          </div>
+        </div>
+        <button id="btn-add-food" class="btn-primary">Add Entry</button>
+      </div>
+
+      <!-- Add Health Form -->
+      <div class="card">
+        <h3 style="margin-top:0;">Log Health Metrics</h3>
+        <div class="form-group" style="display: flex; gap: 16px;">
+          <div style="flex: 1;">
+            <label>BP (e.g. 120/80)</label>
+            <input type="text" id="dash-health-bp" class="input-field" placeholder="120/80">
+          </div>
+          <div style="flex: 1;">
+            <label>Sugar (mg/dL)</label>
+            <input type="number" id="dash-health-sugar" class="input-field" placeholder="100">
+          </div>
+        </div>
+        <button id="btn-dash-save-health" class="btn-primary">Add Health Data</button>
+        <div id="dash-health-msg" class="hidden alert-panel" style="background-color: var(--surface-container-low); border-left-color: var(--primary); padding: 12px; margin-top: 16px;"></div>
+      </div>
+
+      <!-- Today's Logs -->
+      <div class="card">
+        <h3 style="margin-top:0; margin-bottom: 12px;">Today's Food Logs</h3>
+        <div class="sub-card" style="max-height: 250px; overflow-y: auto;">
+          <div id="dash-logs-container"></div>
+          <div id="dash-no-logs" style="text-align:center; padding: 20px;" class="text-muted">No foods logged today.</div>
+        </div>
+      </div>
+      
+      <!-- Today's Health Logs -->
+      <div class="card">
+        <h3 style="margin-top:0; margin-bottom: 12px;">Today's Health Logs</h3>
+        <div class="sub-card" style="max-height: 250px; overflow-y: auto;">
+          <div id="dash-health-logs-container"></div>
+          <div id="dash-no-health-logs" style="text-align:center; padding: 20px;" class="text-muted">No health logs today.</div>
+        </div>
+      </div>
+      <!-- Footer Actions -->
+      <button id="btn-logout" class="btn-secondary mb-2" style="margin-bottom: 40px;">Log Out</button>
+      
+    </div>
+
+    <!-- Profile View -->
+    <div id="profile-view" class="hidden">
+      <!-- Header -->
+      <div class="top-nav glass-panel">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button id="btn-back-dashboard" class="btn-secondary" style="margin: 0; padding: 8px 16px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; color: var(--primary);">←</button>
+          <h2 style="margin:0;">Edit Profile</h2>
+        </div>
+      </div>
+
+      <!-- Profile Tabs -->
+      <div class="card" style="padding: 16px; margin-bottom: 16px;">
+        <div style="display: flex; gap: 8px;">
+          <button id="tab-btn-settings" class="btn-secondary" style="margin: 0; flex:1; border-color: var(--primary); background: var(--surface-container-low);">Settings</button>
+          <button id="tab-btn-history" class="btn-secondary" style="margin: 0; flex:1; border-color: transparent;">History</button>
+          <button id="tab-btn-health" class="btn-secondary" style="margin: 0; flex:1; border-color: transparent;">Health</button>
+        </div>
+      </div>
+
+      <div id="p-sec-settings" class="card">
+        <h3 style="margin-top:0;">Personal Info</h3>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="profile-name" class="input-field" placeholder="Enter your full name">
+        </div>
+        
+        <div class="form-group">
+          <label>Daily Calorie Goal</label>
+          <input type="number" id="profile-goal" class="input-field" placeholder="2000">
+        </div>
+        
+        <div class="form-group" style="display: flex; gap: 16px;">
+          <div style="flex: 1;">
+            <label>Height (cm)</label>
+            <input type="number" id="profile-height" class="input-field" placeholder="175">
+          </div>
+          <div style="flex: 1;">
+            <label>Weight (kg)</label>
+            <input type="number" id="profile-weight" class="input-field" placeholder="70">
+          </div>
+        </div>
+        
+        <div class="form-group" style="background: var(--surface-container); padding: 12px; border-radius: 12px; text-align: center;">
+          <label style="margin-bottom: 4px;">Calculated BMI</label>
+          <div id="profile-bmi" style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">--</div>
+        </div>
+        
+        <button id="btn-save-profile" class="btn-primary mb-2">Save Changes</button>
+        <div id="profile-msg" class="hidden alert-panel" style="background-color: var(--surface-container-low); border-left-color: var(--primary); padding: 12px; margin-top: 16px;"></div>
+      </div>
+
+      <!-- Food History Tab -->
+      <div id="p-sec-history" class="card hidden">
+        <h3 style="margin-top:0;">Food History</h3>
+        <div class="sub-card" style="max-height: 400px; overflow-y: auto;">
+          <div id="logs-container">
+            <!-- Logs dynamically populated here -->
+          </div>
+          <div id="no-logs" style="text-align:center; padding: 20px;" class="text-muted">
+            No foods logged yet.
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Metrics Tab -->
+      <div id="p-sec-health" class="card hidden">
+        <h3 style="margin-top:0;">Daily Health Metrics</h3>
+        
+        <div class="form-group">
+          <label>Blood Pressure (e.g., 120/80)</label>
+          <input type="text" id="health-bp" class="input-field" placeholder="120/80">
+        </div>
+        
+        <div class="form-group">
+          <label>Blood Sugar (mg/dL)</label>
+          <input type="number" id="health-sugar" class="input-field" placeholder="100">
+        </div>
+        
+        <button id="btn-save-health" class="btn-primary mb-2">Save Metrics</button>
+        <div id="health-msg" class="hidden alert-panel" style="background-color: var(--surface-container-low); border-left-color: var(--primary); padding: 12px; margin-top: 16px;"></div>
+
+        <h4 style="margin-top:24px;">Health Records</h4>
+        <div class="sub-card" style="max-height: 300px; overflow-y: auto;">
+          <div id="health-logs-container"></div>
+          <div id="no-health-logs" style="text-align:center; padding: 20px;" class="text-muted">No health data logged.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
