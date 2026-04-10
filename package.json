@@ -1,0 +1,24 @@
+{
+  "name": "nutrisense",
+  "version": "1.0.0",
+  "description": "Premium Smart Food & Health Tracking Web Application",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "health",
+    "fitness",
+    "nutrition",
+    "tracker",
+    "firebase",
+    "pwa"
+  ],
+  "author": "NutriSense Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
